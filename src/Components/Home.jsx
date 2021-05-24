@@ -4,8 +4,15 @@ import "../Themes/Home.scss";
 import Quote from "./Quote";
 
 import { GlobalContext } from "../Contexto/Contexto";
+import HistoryActivity from "./HistoryActivity";
+
+/**
+ Este componente sirve para mostrar la imagen del personaje junto con una frase aleatoria
+ obtenida del componente Quote
+ */
 
 const Home = () => {
+  // GLOBAL CONTEXT - STORAGE
   const { person, quote } = useContext(GlobalContext);
 
   return (
@@ -28,6 +35,12 @@ const Home = () => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col">
+          <HistoryActivity />
         </div>
       </div>
     </>

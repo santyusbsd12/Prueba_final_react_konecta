@@ -8,6 +8,7 @@ import Home from "./Components/Home";
 import PersonList from "./Components/PersonList";
 import HistoryActivity from "./Components/HistoryActivity";
 import FavoriteQuotes from "./Components/FavoriteQuotes";
+import OtherQuotes from "./Components/OtherQuotes";
 
 function App() {
   return (
@@ -17,9 +18,9 @@ function App() {
       <div className="container">
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/history" component={HistoryActivity} />
           <Route exact path="/personList" component={PersonList} />
           <Route exact path="/favoriteQuotes" component={FavoriteQuotes} />
+          <Route exact path="/otherQuotes" component={OtherQuotes} />
         </Switch>
       </div>
     </Router>

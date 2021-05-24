@@ -3,9 +3,12 @@ import { GlobalContext } from "../Contexto/Contexto";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
-import Quote from "./Liked";
+/**
+ Este componente sirve para mostrar el historial de comentarios
+ */
 
 const HistoryActivity = () => {
+  // GLOBAL CONTEXT - STORAGE
   const { quote, historyComentary, deleteComentary } =
     useContext(GlobalContext);
 
@@ -15,18 +18,11 @@ const HistoryActivity = () => {
         <div
           className="card text-center"
           style={{ width: "97%", margin: "10px" }}
-        >
-          <div className="card-body">
-            <h5 className="card-title">{quote && quote.author}</h5>
-            <p className="card-text">{quote && quote.quote}</p>
-          </div>
-        </div>
+        ></div>
       </div>
 
       <div className="row bg-dark px-3 rounded mx-1 mb-3">
-        <p className="badge bg-primary fs-4 mt-3">Activity History</p>
-
-        <div className="col-lg-8 text-center">
+        <div className="col text-center">
           <p className="badge bg-warning fs-4 mt-3 text-center">Comentaries</p>
           <ul className="list-group">
             {historyComentary.length > 0 ? (
@@ -36,8 +32,8 @@ const HistoryActivity = () => {
                   className="text-center d-flex justify-content-center"
                 >
                   <div
-                    className="bg-light w-100 rounded border border-danger mb-3"
-                    style={{ width: "18rem" }}
+                    className="bg-light w-100 rounded border border-danger mb-3 d-flex justify-content-center"
+                    style={{ width: "100%" }}
                   >
                     <div className="card-body text-primary">
                       <h5 className="card-title h6">
@@ -68,10 +64,6 @@ const HistoryActivity = () => {
               </div>
             )}
           </ul>
-        </div>
-
-        <div className="col-lg-4 d-flex justify-content-center">
-          <Quote quote={quote} />
         </div>
       </div>
     </div>

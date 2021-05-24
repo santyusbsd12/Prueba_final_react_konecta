@@ -1,18 +1,23 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "../Contexto/Contexto";
-
+import logo from "../assets/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUsers,
   faCheckDouble,
   faJournalWhills,
   faStar,
+  faFireAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
-import logo from "../assets/logo.png";
+/**
+ Este componente sirve para administrar la barra de navegacion y redirigir la vista a cada uno de 
+ los componentes.
+ */
 
 const Header = () => {
+  // GLOBAL CONTEXT - STORAGE
   const { reReadQuotes } = useContext(GlobalContext);
 
   return (
@@ -30,20 +35,19 @@ const Header = () => {
           </div>
         </Link>
 
-        <Link className="btn" to="/history">
-          <div className="p-2 bd-highlight h1 text-light mx-1">
-            <FontAwesomeIcon icon={faJournalWhills} /> <br /> History
-          </div>
-        </Link>
-
         <Link className="btn" to="/personList">
           <div className="p-2 bd-highlight h1 text-light mx-1">
-            <FontAwesomeIcon icon={faUsers} /> <br /> Lista
+            <FontAwesomeIcon icon={faUsers} /> <br /> List
           </div>
         </Link>
         <Link className="btn" to="/favoriteQuotes">
           <div className="p-2 bd-highlight h1 text-light mx-1">
             <FontAwesomeIcon icon={faStar} /> <br /> Favorites
+          </div>
+        </Link>
+        <Link className="btn" to="/otherQuotes">
+          <div className="p-2 bd-highlight h1 text-light mx-1">
+            <FontAwesomeIcon icon={faFireAlt} /> <br /> other quotes
           </div>
         </Link>
       </div>

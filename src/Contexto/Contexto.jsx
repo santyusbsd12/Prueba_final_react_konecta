@@ -16,6 +16,7 @@ const ContextProvider = ({ children }) => {
   const [offset, setOffset] = useState(0);
   const [reload, setReload] = useState(false);
   const [inputFilter, setInputFilter] = useState("");
+  const [allQuotes, setAllQuotes] = useState([]);
 
   // CALIFICACIONES E HISTORIAL DE CALIFICACIONES
   const [calificationModGood, setCalificationModGood] = useState(false);
@@ -30,6 +31,7 @@ const ContextProvider = ({ children }) => {
 
   // ADMINISTRACION DE FAVORITOS
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavoriteAllQuotes, setIsFavoriteAllQuotes] = useState(false);
   const [favoriteList, setFavoriteList] = useState([]);
 
   useEffect(() => {
@@ -52,14 +54,24 @@ const ContextProvider = ({ children }) => {
       const resQuote = await fetch(
         `https://breakingbadapi.com/api/quote/random?author=${personName}`
       );
-      const respuestaquote = await resQuote.json();
-      setQuote(respuestaquote[0]);
+      const answerQuote = await resQuote.json();
+      setQuote(answerQuote[0]);
     };
 
     getQuoteFunction();
     setGoodCounter(0);
     setBadCounter(0);
   }, [personName, nextQuote]);
+
+  useEffect(() => {
+    const getAllQutes = async () => {
+      const resAllQuotes = await fetch("https://breakingbadapi.com/api/quotes");
+      const answerAllQuotes = await resAllQuotes.json();
+      setAllQuotes(answerAllQuotes);
+    };
+
+    getAllQutes();
+  }, []);
 
   // FUNCIONES PARA ADMINISTRACION DE FRASES Y PERSONAJES
   const nextQuoteFunction = () => {
@@ -84,7 +96,7 @@ const ContextProvider = ({ children }) => {
     setOffset(0);
   };
 
-  const searchingTheme = (inputState) => {
+  const searchingNameFilter = (inputState) => {
     return function (x) {
       return x.name.toLowerCase().includes(inputState) || !inputState;
     };
@@ -92,28 +104,29 @@ const ContextProvider = ({ children }) => {
 
   // FUNCIONES PARA ADMINISTRACION DE COMENTARIOS
   const changeCalificationModeGood = () => {
-    if (calificationModBad) {
-      return;
-    } else {
-      setCalificationModGood(!calificationModGood);
-      setGoodCounter(goodCounter + 1);
-    }
+    // if (calificationModGood) {
+    //   setCalificationModGood(!calificationModGood);
+    //   setGoodCounter(goodCounter - 1);
+    // } else if (calificationModBad) {
+    //   return;
+    // } else {
+    setCalificationModGood(!calificationModGood);
+    setGoodCounter(goodCounter + 1);
+    // }
   };
 
   const changeCalificationModeBad = () => {
-    if (isFavorite) {
-      return;
-    } else if (calificationModGood) {
-      return;
-    } else {
-      setCalificationModBad(!calificationModBad);
-    }
-
-    if (badCounter >= 0) {
-      setBadCounter(badCounter + 1);
-    } else {
-      return;
-    }
+    // if (isFavorite) {
+    //   return;
+    // } else if (calificationModGood) {
+    //   return;
+    // } else if (calificationModBad) {
+    //   setCalificationModBad(!calificationModBad);
+    //   setBadCounter(badCounter - 1);
+    // } else {
+    setCalificationModBad(!calificationModBad);
+    setBadCounter(badCounter + 1);
+    // }
   };
 
   const saveComentary = () => {
@@ -150,7 +163,7 @@ const ContextProvider = ({ children }) => {
   };
 
   // FUNCIONES PARA LA GESTION DE FAVORITOS
-  const isFavoriteFunction = (quote, author) => {
+  const isFavoriteFunction = (id, quote, author) => {
     if (calificationModBad) {
       setFavoriteList([...favoriteList]);
     } else if (isFavorite) {
@@ -161,12 +174,26 @@ const ContextProvider = ({ children }) => {
       setFavoriteList(arrayFilter);
       setIsFavorite(!isFavorite);
     } else {
-      setIsFavorite(!isFavorite);
+      setIsFavorite(isFavorite === false);
       setFavoriteList([
         ...favoriteList,
-        { id: uuid4(), quote: quote, author: author },
+        { id: id, quote: quote, author: author },
       ]);
     }
+  };
+
+  const isFavoriteAllQuotesFunction = (id, quote, author) => {
+    setFavoriteList([
+      ...favoriteList,
+      { id: id, quote: quote, author: author },
+    ]);
+    setIsFavoriteAllQuotes(true);
+
+    // console.log(id);
+    // console.log(quote);
+    // console.log(author);
+
+    // console.log(favoriteList);
   };
 
   const deleteQuote = (quote) => {
@@ -188,11 +215,12 @@ const ContextProvider = ({ children }) => {
         previousPageFunction,
         pageCounter,
         reReadQuotes,
+        allQuotes,
 
         // Search filter sistem
         setInputFilter,
         inputFilter,
-        searchingTheme,
+        searchingNameFilter,
 
         // Calification sistem
         changeCalificationModeGood,
@@ -215,6 +243,8 @@ const ContextProvider = ({ children }) => {
         isFavorite,
         favoriteList,
         deleteQuote,
+        isFavoriteAllQuotesFunction,
+        isFavoriteAllQuotes,
       }}
     >
       {children}

@@ -1,7 +1,14 @@
 import React, { useContext } from "react";
 import { GlobalContext } from "../Contexto/Contexto";
 
+/**
+ Este componente sirve para mostrar realizar la funcionalidad del paginador
+ en el componente personList
+ */
+
 const Paginator = () => {
+
+  // GLOBAL CONTEXT - STORAGE
   const { nextPageFunction, previousPageFunction, pageCounter } =
     useContext(GlobalContext);
 

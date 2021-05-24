@@ -1,8 +1,13 @@
 import React, { useContext } from "react";
-
 import { GlobalContext } from "../Contexto/Contexto";
 
+/**
+ Este componente sirve para realizar la busqueda filtro de los
+ nombres de los personajes
+ */
+
 const Search = () => {
+  // GLOBAL CONTEXT - STORAGE
   const { setInputFilter } = useContext(GlobalContext);
 
   return (

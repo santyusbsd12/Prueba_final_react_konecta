@@ -4,7 +4,14 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import { GlobalContext } from "../Contexto/Contexto";
 
+/**
+ Este componente sirve para renderizar la lista de frases favoritas guardadas en el state
+ favoriteList
+ */
+
 const FavoriteQuotes = () => {
+
+  // GLOBAL CONTEXT - STORAGE
   const { favoriteList, deleteQuote } = useContext(GlobalContext);
 
   return (

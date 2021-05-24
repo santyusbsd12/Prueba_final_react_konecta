@@ -1,4 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
+
+/**
+ Este componente sirve para mostrar cada uno de los personajes con su informacion,
+ este componente es usado en el componente PersonList
+ */
 
 const Person = ({ personajeIt }) => {
   return (
@@ -37,6 +43,10 @@ const Person = ({ personajeIt }) => {
       </div>
     </>
   );
+};
+
+Person.propTypes = {
+  personajeIt: PropTypes.object.isRequired,
 };
 
 export default Person;
