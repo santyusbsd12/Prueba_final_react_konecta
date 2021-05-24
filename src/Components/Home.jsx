@@ -12,7 +12,7 @@ const Home = () => {
     <>
       <div className="row">
         <div className="col">
-          <div className="card mb-3 home__contenedor-principal">
+          <div className="card home__contenedor-principal">
             <div className="row g-0">
               <div className="col-md-5 home__contenedor-imagen">
                 <img

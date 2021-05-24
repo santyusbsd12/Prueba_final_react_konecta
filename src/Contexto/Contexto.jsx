@@ -25,9 +25,7 @@ const ContextProvider = ({ children }) => {
 
   // COMENTARIOS E HISTORIAL DE COMENTARIOS
   const [comentary, setComentary] = useState("");
-  const [historyComentary, setHistoryComentary] = useState([
-    { id: 1, coment: "hola santy", dateTime: "holi" },
-  ]);
+  const [historyComentary, setHistoryComentary] = useState([]);
   const [saveConfirmed, setSaveConfirmed] = useState(false);
 
   // ADMINISTRACION DE FAVORITOS

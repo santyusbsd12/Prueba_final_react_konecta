@@ -17,7 +17,10 @@ const FavoriteQuotes = () => {
       <ul className="list-group mt-5 mb-4">
         {favoriteList.length > 0 ? (
           favoriteList.map((favorite) => (
-            <li className="list-group-item my-1 border border-danger ">
+            <li
+              className="list-group-item my-1 border border-danger"
+              key={favorite.id}
+            >
               <div className="card text-center">
                 <div className="card-body">
                   <h5 className="card-title">{favorite.author}</h5>
