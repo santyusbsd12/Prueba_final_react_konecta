@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuid4 } from "uuid";
 
-// Contexto global
+// Global context
 const GlobalContext = React.createContext();
 
 // Context provider
@@ -19,21 +19,21 @@ const ContextProvider = ({ children }) => {
   const [allQuotes, setAllQuotes] = useState([]);
 
   // CALIFICACIONES E HISTORIAL DE CALIFICACIONES
-  const [calificationModGood, setCalificationModGood] = useState(false);
-  const [calificationModBad, setCalificationModBad] = useState(false);
   const [goodCounter, setGoodCounter] = useState(0);
   const [badCounter, setBadCounter] = useState(0);
 
   // COMENTARIOS E HISTORIAL DE COMENTARIOS
   const [comentary, setComentary] = useState("");
   const [historyComentary, setHistoryComentary] = useState([]);
-  const [saveConfirmed, setSaveConfirmed] = useState(false);
+  const [saveConfirmedComentary, setSaveConfirmedComentary] = useState(false);
 
   // ADMINISTRACION DE FAVORITOS
   const [isFavorite, setIsFavorite] = useState(false);
   const [isFavoriteAllQuotes, setIsFavoriteAllQuotes] = useState(false);
   const [favoriteList, setFavoriteList] = useState([]);
+  // const [saveConfirmedFavorite, setSaveConfirmedFavorite] = useState(false);
 
+  // CONSUMO DE LA API PARA OBTENER Y RECARGAR LA INFORMACION DEL PERSONAJE
   useEffect(() => {
     const getPersonFunction = async () => {
       const res = await fetch(
@@ -49,6 +49,7 @@ const ContextProvider = ({ children }) => {
     getPersonFunction();
   }, [reload, offset]);
 
+  // CONSUMO DE LA API PARA OBTENER UNA FRASE ALEATORIA Y NOMBRE DEL AUTOR
   useEffect(() => {
     const getQuoteFunction = async () => {
       const resQuote = await fetch(
@@ -63,6 +64,7 @@ const ContextProvider = ({ children }) => {
     setBadCounter(0);
   }, [personName, nextQuote]);
 
+  // CONSUMO DE LA API PARA OBTENER EL LISTADO DE TODOS LOS PERSONAJES
   useEffect(() => {
     const getAllQutes = async () => {
       const resAllQuotes = await fetch("https://breakingbadapi.com/api/quotes");
@@ -73,11 +75,14 @@ const ContextProvider = ({ children }) => {
     getAllQutes();
   }, []);
 
-  // FUNCIONES PARA ADMINISTRACION DE FRASES Y PERSONAJES
+  // ---------------------------------------------------- //
+
+  /**
+   * FUNCIONES PARA ADMINISTRACION DE FRASES Y PERSONAJES
+   */
+
   const nextQuoteFunction = () => {
     setNextQuote(!nextQuote);
-    setCalificationModGood(false);
-    setCalificationModBad(false);
     setIsFavorite(false);
   };
 
@@ -102,32 +107,11 @@ const ContextProvider = ({ children }) => {
     };
   };
 
-  // FUNCIONES PARA ADMINISTRACION DE COMENTARIOS
-  const changeCalificationModeGood = () => {
-    // if (calificationModGood) {
-    //   setCalificationModGood(!calificationModGood);
-    //   setGoodCounter(goodCounter - 1);
-    // } else if (calificationModBad) {
-    //   return;
-    // } else {
-    setCalificationModGood(!calificationModGood);
-    setGoodCounter(goodCounter + 1);
-    // }
-  };
+  // ---------------------------------------------------- //
 
-  const changeCalificationModeBad = () => {
-    // if (isFavorite) {
-    //   return;
-    // } else if (calificationModGood) {
-    //   return;
-    // } else if (calificationModBad) {
-    //   setCalificationModBad(!calificationModBad);
-    //   setBadCounter(badCounter - 1);
-    // } else {
-    setCalificationModBad(!calificationModBad);
-    setBadCounter(badCounter + 1);
-    // }
-  };
+  /**
+   * FUNCIONES PARA ADMINISTRACION DE COMENTARIOS
+   */
 
   const saveComentary = () => {
     // FECHA ACTUAL
@@ -147,11 +131,12 @@ const ContextProvider = ({ children }) => {
       ...historyComentary,
       { id: uuid4(), coment: comentary, dateTime: today, hourTime: time },
     ]);
-    setSaveConfirmed(true);
+
+    setSaveConfirmedComentary(true);
     setComentary("");
 
     setTimeout(() => {
-      setSaveConfirmed(false);
+      setSaveConfirmedComentary(false);
     }, 4000);
   };
 
@@ -162,11 +147,44 @@ const ContextProvider = ({ children }) => {
     setHistoryComentary(arrayComentDelete);
   };
 
-  // FUNCIONES PARA LA GESTION DE FAVORITOS
+  // FUNCION PARA LOGICA DEL LIKE
+  const allQuoteLike = (id) => {
+    setGoodCounter(0);
+
+    const newQuotes = allQuotes.map((quote) => {
+      if (quote.quote_id === id) {
+        let contador = (quote?.like || 0) + 1;
+        return { ...quote, like: contador };
+      }
+      return quote;
+    });
+
+    setAllQuotes(newQuotes);
+  };
+
+  // FUNCION PARA LOGICA DEL DISLIKE
+  const allQuoteDislike = (id) => {
+    setGoodCounter(0);
+
+    const newQuotesDis = allQuotes.map((quoteDis) => {
+      if (quoteDis.quote_id === id) {
+        let contador = (quoteDis?.dislike || 0) + 1;
+        return { ...quoteDis, dislike: contador };
+      }
+      return quoteDis;
+    });
+
+    setAllQuotes(newQuotesDis);
+  };
+
+  // ---------------------------------------------------- //
+
+  /**
+   * FUNCIONES PARA LA GESTION DE FAVORITOS
+   */
+
   const isFavoriteFunction = (id, quote, author) => {
-    if (calificationModBad) {
-      setFavoriteList([...favoriteList]);
-    } else if (isFavorite) {
+    if (isFavorite) {
       let arrayFilter = favoriteList.filter(
         (iterador) => iterador.quote !== quote
       );
@@ -188,12 +206,6 @@ const ContextProvider = ({ children }) => {
       { id: id, quote: quote, author: author },
     ]);
     setIsFavoriteAllQuotes(true);
-
-    // console.log(id);
-    // console.log(quote);
-    // console.log(author);
-
-    // console.log(favoriteList);
   };
 
   const deleteQuote = (quote) => {
@@ -206,7 +218,7 @@ const ContextProvider = ({ children }) => {
   return (
     <GlobalContext.Provider
       value={{
-        // Persons and quotes manager
+        // PERSONS AND QUOTES MANAGER
         person,
         quote,
         nextQuoteFunction,
@@ -217,25 +229,23 @@ const ContextProvider = ({ children }) => {
         reReadQuotes,
         allQuotes,
 
-        // Search filter sistem
+        // SEARCH FILTER SISTEM
         setInputFilter,
         inputFilter,
         searchingNameFilter,
 
-        // Calification sistem
-        changeCalificationModeGood,
-        calificationModGood,
-        changeCalificationModeBad,
-        calificationModBad,
+        // CALIFICATION SISTEM
         goodCounter,
         badCounter,
+        allQuoteLike,
+        allQuoteDislike,
 
-        // History comentaries
+        // HISTORY COMENTARIES
         setComentary,
         comentary,
         saveComentary,
         historyComentary,
-        saveConfirmed,
+        saveConfirmedComentary,
         deleteComentary,
 
         // FAVORITE MANAGER

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { GlobalContext } from "../Contexto/Contexto";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import SaveConfirmed from "./SaveConfirmed";
 import {
   faHeart,
   faThumbsUp,
@@ -9,56 +10,70 @@ import {
 
 /**
  * Este componente se encarga de renderizar la lista de frases de diversos personajes
+ * en este listado el usuario puede dar like, dislike o guardar la frase de su preferencia en
+ * la lista de favoritos
  */
 
 const OtherQuotes = () => {
-  // GLOBAL CONTEXT - STORAGE
   const {
+    /*PERSONS AND QUOTES MANAGER*/
     allQuotes,
-    changeCalificationModeGood,
-    changeCalificationModeBad,
+
+    /*FAVORITE MANAGER*/
     isFavoriteAllQuotesFunction,
-    goodCounter,
-    badCounter,
+
+    /*CALIFICATION SISTEM*/
+    allQuoteLike,
+    allQuoteDislike,
   } = useContext(GlobalContext);
+
   return (
     <div className="container">
       <ul className="list-group">
-        {allQuotes.map((quote) => (
-          <li key={quote.quote_id} className="list-group-item bg-dark">
+        {allQuotes.map((quo) => (
+          <li key={quo.quote_id} className="list-group-item bg-dark">
             <div className="card border-info mb-3">
               <div className="card-body">
-                <h5 className="card-title">{quote.author}</h5>
-                <p className="card-text">{quote.quote}</p>
+                <h5 className="card-title">{quo.author}</h5>
+                <p className="card-text">{quo.quote}</p>
                 <div className="bd-danger">
+                  {/* Favorite button */}
                   <button
                     className="btn"
                     onClick={() =>
                       isFavoriteAllQuotesFunction(
-                        quote.quote_id,
-                        quote.quote,
-                        quote.author
+                        quo.quote_id,
+                        quo.quote,
+                        quo.author
                       )
                     }
                   >
                     <FontAwesomeIcon icon={faHeart} style={{ color: "red" }} />
                   </button>
 
-                  <button onClick={changeCalificationModeGood} className="btn">
+                  {/* Like button */}
+                  <button
+                    className="btn"
+                    onClick={() => allQuoteLike(quo.quote_id)}
+                  >
                     <FontAwesomeIcon
                       icon={faThumbsUp}
                       style={{ color: "blue" }}
                     />
                   </button>
-                  <span>{goodCounter}</span>
+                  {quo.like}
 
-                  <button onClick={changeCalificationModeBad} className="btn">
+                  {/* Dislike button */}
+                  <button
+                    onClick={() => allQuoteDislike(quo.quote_id)}
+                    className="btn"
+                  >
                     <FontAwesomeIcon
                       icon={faThumbsDown}
                       style={{ color: "orange" }}
                     />
                   </button>
-                  <span>{badCounter}</span>
+                  {quo.dislike}
                 </div>
               </div>
             </div>

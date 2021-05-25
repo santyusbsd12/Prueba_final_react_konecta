@@ -2,11 +2,7 @@ import React, { useContext } from "react";
 import { GlobalContext } from "../Contexto/Contexto";
 import SaveConfirmed from "./SaveConfirmed";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHeart,
-  faThumbsUp,
-  faThumbsDown,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 /**
  Este componente sirve para mostrar todas las frases aleatorias que se obtienen de la API,
@@ -15,18 +11,18 @@ import {
  */
 
 const Quote = () => {
-  // GLOBAL CONTEXT - STORAGE
   const {
+    /*PERSONS AND QUOTES MANAGER*/
     quote,
     nextQuoteFunction,
-    changeCalificationModeGood,
-    calificationModGood,
-    changeCalificationModeBad,
-    calificationModBad,
+
+    /*HISTORY COMENTARIES*/
     setComentary,
     comentary,
     saveComentary,
-    saveConfirmed,
+    saveConfirmedComentary,
+
+    /*FAVORITE MANAGER*/
     isFavoriteFunction,
     isFavorite,
   } = useContext(GlobalContext);
@@ -34,7 +30,6 @@ const Quote = () => {
     <>
       <h5 className="card-title h1">{quote.author}</h5>
       <p className="card-text h5">{quote.quote}</p>
-      <p className="card-text h5">{quote.quote_id}</p>
       <div className="d-grid gap-2">
         <div className="row">
           <div className="col">
@@ -51,27 +46,6 @@ const Quote = () => {
               )}
             </button>
             <span> Save to favorites</span>
-            {/* <button onClick={changeCalificationModeGood} className="btn">
-              {calificationModGood ? (
-                <FontAwesomeIcon icon={faThumbsUp} style={{ color: "blue" }} />
-              ) : (
-                <FontAwesomeIcon icon={faThumbsUp} />
-              )}
-            </button>
-            <span> I like</span>
-            <br />
-
-            <button onClick={changeCalificationModeBad} className="btn">
-              {calificationModBad ? (
-                <FontAwesomeIcon
-                  icon={faThumbsDown}
-                  style={{ color: "orange" }}
-                />
-              ) : (
-                <FontAwesomeIcon icon={faThumbsDown} />
-              )}
-            </button>
-            <span> I don't like</span> */}
           </div>
           <div className="container">
             <div className="d-grid gap-2">
@@ -109,7 +83,7 @@ const Quote = () => {
             </div>
           </div>
 
-          {saveConfirmed ? <SaveConfirmed /> : null}
+          {saveConfirmedComentary ? <SaveConfirmed /> : null}
         </div>
       </div>
     </>

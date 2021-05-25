@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from "./Components/Header";
 import Home from "./Components/Home";
 import PersonList from "./Components/PersonList";
-import HistoryActivity from "./Components/HistoryActivity";
 import FavoriteQuotes from "./Components/FavoriteQuotes";
 import OtherQuotes from "./Components/OtherQuotes";
 

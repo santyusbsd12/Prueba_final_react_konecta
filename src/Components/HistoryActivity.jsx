@@ -4,13 +4,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 /**
- Este componente sirve para mostrar el historial de comentarios
+ Este componente sirve para mostrar el historial de comentarios y tener la funcionalidad para 
+ eliminar el comentario
  */
 
 const HistoryActivity = () => {
-  // GLOBAL CONTEXT - STORAGE
-  const { quote, historyComentary, deleteComentary } =
-    useContext(GlobalContext);
+  
+  const { historyComentary, deleteComentary } = useContext(GlobalContext);
 
   return (
     <div className="container pt-3">

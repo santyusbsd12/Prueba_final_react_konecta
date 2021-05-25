@@ -6,18 +6,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUsers,
   faCheckDouble,
-  faJournalWhills,
   faStar,
   faFireAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
  Este componente sirve para administrar la barra de navegacion y redirigir la vista a cada uno de 
- los componentes.
+ los componentes usando react-router. El Switch de rutas se encuentra en el App.jsx
  */
 
 const Header = () => {
-  // GLOBAL CONTEXT - STORAGE
+  
   const { reReadQuotes } = useContext(GlobalContext);
 
   return (
@@ -47,7 +46,7 @@ const Header = () => {
         </Link>
         <Link className="btn" to="/otherQuotes">
           <div className="p-2 bd-highlight h1 text-light mx-1">
-            <FontAwesomeIcon icon={faFireAlt} /> <br /> other quotes
+            <FontAwesomeIcon icon={faFireAlt} /> <br /> Other quotes
           </div>
         </Link>
       </div>

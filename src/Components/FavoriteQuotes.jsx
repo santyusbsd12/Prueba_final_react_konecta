@@ -6,13 +6,14 @@ import { GlobalContext } from "../Contexto/Contexto";
 
 /**
  Este componente sirve para renderizar la lista de frases favoritas guardadas en el state
- favoriteList
+ favoriteList, este componente es quien las muestra
  */
 
 const FavoriteQuotes = () => {
-
-  // GLOBAL CONTEXT - STORAGE
-  const { favoriteList, deleteQuote } = useContext(GlobalContext);
+  const { 
+    /* FAVORITE MANAGER -->*/ favoriteList, 
+    /* FUNCTION DELETE -->*/ deleteQuote 
+  } = useContext(GlobalContext);
 
   return (
     <div className="container">

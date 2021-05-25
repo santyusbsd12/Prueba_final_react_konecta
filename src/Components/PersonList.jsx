@@ -5,15 +5,21 @@ import Paginator from "./Paginator";
 import Person from "./Person";
 import Search from "./Search";
 
-
 /**
- Este componente sirve para iterar la lista de personajes y 
- albergar el buscador por filtro
+ Este componente sirve para iterar la lista total de personajes y 
+ albergar el buscador por filtro, los personajes se renderizan con el 
+ componente Person.jsx
  */
 
 const PersonList = () => {
-  // GLOBAL CONTEXT - STORAGE
-  const { personList, inputFilter, searchingNameFilter } = useContext(GlobalContext);
+  const { 
+    /*PERSONS AND QUOTES MANAGER*/
+    personList,
+    
+    /*SEARCH FILTER SISTEM*/
+    inputFilter, 
+    searchingNameFilter
+   } = useContext(GlobalContext);
 
   return (
     <div className="container w-100">
@@ -21,10 +27,11 @@ const PersonList = () => {
 
       <div className="row">
         <ul className="list/group d-flex flex-wrap justify-content-center">
-          {personList.filter(searchingNameFilter(inputFilter)).map((personajeIt) => (
-            <Person personajeIt={personajeIt} key={personajeIt.char_id} />
-            
-          ))}
+          {personList
+            .filter(searchingNameFilter(inputFilter))
+            .map((personajeIt) => (
+              <Person personajeIt={personajeIt} key={personajeIt.char_id} />
+            ))}
         </ul>
       </div>
 
@@ -32,7 +39,5 @@ const PersonList = () => {
     </div>
   );
 };
-
-
 
 export default PersonList;
